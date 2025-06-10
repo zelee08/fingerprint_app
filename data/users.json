@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Alice",
+    "image_path": "tests/assets/sample1.png",
+    "features": [
+      [
+        1,
+        2,
+        3
+      ]
+    ]
+  }
+]
