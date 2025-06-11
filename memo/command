@@ -1,0 +1,4 @@
+cd C:\Users\qioty\Desktop\fingerprint_app
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\Activate.ps1
+ streamlit run main.py
