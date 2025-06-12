@@ -1,0 +1,16 @@
+# 仮想環境
+venv/
+
+# Python キャッシュ
+__pycache__/
+*.py[cod]
+
+# テストキャッシュ
+.pytest_cache/
+
+# ログファイル
+logs/
+
+# OS が書くファイル
+*.DS_Store
+Thumbs.db
