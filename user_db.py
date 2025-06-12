@@ -1,53 +1,36 @@
-import json
-from pathlib import Path
+# user_db.py
 import os
+from dotenv import load_dotenv
+from supabase import create_client, Client
 
-# JSONファイルへのパス
-DATA_PATH = Path("data/users.json")
+# .env を読み込む
+load_dotenv()
+SUPA_URL = os.getenv("SUPABASE_URL")
+SUPA_KEY = os.getenv("SUPABASE_ANON_KEY")
 
-def load_users() -> list:
-    """users.json を読み込んでPythonのリストで返す。存在しなければ空リスト。"""
-    if not DATA_PATH.exists():
-        return []
-    try:
-        return json.loads(DATA_PATH.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return []
+# Supabase クライアントを生成
+supabase: Client = create_client(SUPA_URL, SUPA_KEY)
 
-def save_users(users: list):
-    """Pythonのリストを JSON に書き出す。"""
-    DATA_PATH.write_text(
-        json.dumps(users, ensure_ascii=False, indent=2),
-        encoding="utf-8"
-    )
-
-def add_user(name: str, image_path: str, features: list):
-    """1件分のユーザー登録データを追加して保存する。"""
-    users = load_users()
-    users.append({
+def add_user(name: str, image_key: str, features: list) -> None:
+    """Supabase の users テーブルに新規レコードを挿入する"""
+    data = {
         "name": name,
-        "image_path": image_path,
+        "image_key": image_key,
         "features": features
-    })
-    save_users(users)
+    }
+    res = supabase.table("users").insert(data).execute()
+    if res.error:
+        raise RuntimeError(f"Supabase insert error: {res.error.message}")
 
-# user_db.py の最後に追記
-def clear_users():
-    """users.json を空のリストにリセットする。"""
-    save_users([])
+def load_users() -> list[dict]:
+    """Supabase の users テーブルから全レコードを取得"""
+    res = supabase.table("users").select("*").execute()
+    if res.error:
+        raise RuntimeError(f"Supabase select error: {res.error.message}")
+    return res.data or []
 
-def delete_user(target_name: str):
-    """指定した名前のユーザー情報と画像ファイルを削除する。"""
-    users = load_users()
-    new_users = []
-    # 削除対象以外を残す
-    for u in users:
-        if u["name"] == target_name:
-            # 画像ファイルも削除
-            try:
-                os.remove(u["image_path"])
-            except:
-                pass
-        else:
-            new_users.append(u)
-    save_users(new_users)
+def delete_user(name: str) -> None:
+    """指定した name のユーザーを削除"""
+    res = supabase.table("users").delete().eq("name", name).execute()
+    if res.error:
+        raise RuntimeError(f"Supabase delete error: {res.error.message}")
