@@ -1,1 +1,17 @@
 2025-06-11 10:41:53 [WARNING] “o˜^¸”s: “ü—Í•s‘« name= img_data=False
+2025-06-12 12:36:01 [WARNING] “o˜^¸”s: “ü—Í•s‘« name= img_data=False
+2025-06-12 18:58:41 [INFO] HTTP Request: GET https://wdbssipnhugzetniazun.supabase.co/rest/v1/users?select=%2A "HTTP/2 200 OK"
+2025-06-12 19:00:21 [ERROR] ‰æ‘œ•Û‘¶¸”s: name=User1 error=[Errno 2] No such file or directory: 'images\\User1_20250612190021.png'
+2025-06-12 19:00:24 [WARNING] “o˜^¸”s: “ü—Í•s‘« name= img_data=False
+2025-06-12 19:00:42 [ERROR] ‰æ‘œ•Û‘¶¸”s: name=user1 error=[Errno 2] No such file or directory: 'images\\user1_20250612190042.png'
+2025-06-12 19:03:49 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/rest/v1/users "HTTP/2 401 Unauthorized"
+2025-06-12 19:03:49 [ERROR] JSON“o˜^¸”s: name=user1 path=images\user1_20250612190347.png error={'message': 'new row violates row-level security policy for table "users"', 'code': '42501', 'hint': None, 'details': None}
+2025-06-12 19:07:34 [WARNING] “o˜^¸”s: “ü—Í•s‘« name=user1 img_data=False
+2025-06-12 19:07:49 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/rest/v1/users "HTTP/2 201 Created"
+2025-06-12 19:07:49 [ERROR] JSON“o˜^¸”s: name=user1 path=images\user1_20250612190748.png error='APIResponse[TypeVar]' object has no attribute 'error'
+2025-06-12 19:11:12 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/rest/v1/users "HTTP/2 201 Created"
+2025-06-12 19:11:12 [ERROR] JSON“o˜^¸”s: name=user1 path=images\user1_20250612191111.png error='APIResponse[TypeVar]' object has no attribute 'status_code'
+2025-06-12 19:13:33 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/rest/v1/users "HTTP/2 201 Created"
+2025-06-12 19:13:34 [INFO] “o˜^¬Œ÷: name=user1 path=images\user1_20250612191332.png features=452
+2025-06-12 19:14:47 [INFO] HTTP Request: GET https://wdbssipnhugzetniazun.supabase.co/rest/v1/users?select=%2A&order=id.asc "HTTP/2 200 OK"
+2025-06-12 19:18:23 [INFO] HTTP Request: GET https://wdbssipnhugzetniazun.supabase.co/rest/v1/users?select=%2A&order=id.asc "HTTP/2 200 OK"

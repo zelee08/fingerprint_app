@@ -20,7 +20,7 @@ logging.basicConfig(
 
 # ページ設定（ワイドレイアウト＋タイトル）
 st.set_page_config(
-    page_title="指紋識別アプリ",
+    page_title="濱上研の女",
     layout="wide",
     initial_sidebar_state="expanded",
 )
