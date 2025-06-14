@@ -1,34 +1,67 @@
-# user_db.py
+import json
+from pathlib import Path
 import os
-from dotenv import load_dotenv
-from supabase import create_client, Client
 
-# .env の読み込み
-load_dotenv()
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-def add_user(name: str, image_key: str, features: list) -> None:
-    """
-    Supabase の users テーブルに新規レコードを挿入する
-    """
-    try:
-        supabase.table("users").insert({
-            "name": name,
-            "image_key": image_key,
-            "features": features
-        }).execute()
-    except Exception as e:
-        raise RuntimeError(f"Supabase insert error: {e}")
+# JSONファイルへのパス
+DATA_PATH = Path("data/users.json")
 
 
 def load_users() -> list[dict]:
     """
-    Supabase の users テーブルから全レコードを取得する
+    data/users.json を読み込み、ユーザーリストを返す。
+    存在しない場合は空リスト。
     """
+    if not DATA_PATH.exists():
+        return []
     try:
-        response = supabase.table("users").select("*").order("id", desc=False).execute()
-        return response.data or []
-    except Exception as e:
-        raise RuntimeError(f"Supabase select error: {e}")
+        return json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+
+
+def save_users(users: list[dict]) -> None:
+    """
+    ユーザーリストを data/users.json に書き込む。
+    """
+    DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    DATA_PATH.write_text(
+        json.dumps(users, ensure_ascii=False, indent=2),
+        encoding="utf-8"
+    )
+
+
+def add_user(name: str, image_path: str, features: list) -> None:
+    """
+    1件のユーザー情報を追加して保存する。
+    """
+    users = load_users()
+    users.append({
+        "name": name,
+        "image_path": image_path,
+        "features": features,
+    })
+    save_users(users)
+
+
+def clear_users() -> None:
+    """
+    ユーザー一覧を空にリセットし、data/users.jsonをクリアする。
+    """
+    save_users([])
+
+
+def delete_user(target_name: str) -> None:
+    """
+    指定した名前のユーザーを削除し、対応する画像ファイルも削除する。
+    """
+    users = load_users()
+    new_users = []
+    for u in users:
+        if u["name"] == target_name:
+            try:
+                os.remove(u["image_path"])
+            except OSError:
+                pass
+        else:
+            new_users.append(u)
+    save_users(new_users)
