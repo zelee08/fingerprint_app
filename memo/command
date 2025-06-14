@@ -2,3 +2,10 @@ cd C:\Users\qioty\Desktop\fingerprint_app
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\venv\Scripts\Activate.ps1
  streamlit run main.py
+
+ #仮想環境構築
+ PS C:\Users\takup\OneDrive\デスクトップ\fingerprint_app> Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+>> 
+PS C:\Users\takup\OneDrive\デスクトップ\fingerprint_app> & .\venv\Scripts\Activate.ps1
+>> 
+(venv) PS C:\Users\takup\OneDrive\デスクトップ\fingerprint_app> streamlit run main.py

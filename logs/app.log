@@ -15,3 +15,53 @@
 2025-06-12 19:13:34 [INFO] “o˜^¬Œ÷: name=user1 path=images\user1_20250612191332.png features=452
 2025-06-12 19:14:47 [INFO] HTTP Request: GET https://wdbssipnhugzetniazun.supabase.co/rest/v1/users?select=%2A&order=id.asc "HTTP/2 200 OK"
 2025-06-12 19:18:23 [INFO] HTTP Request: GET https://wdbssipnhugzetniazun.supabase.co/rest/v1/users?select=%2A&order=id.asc "HTTP/2 200 OK"
+2025-06-15 01:20:06 [INFO] HTTP Request: GET https://wdbssipnhugzetniazun.supabase.co/rest/v1/users?select=%2A&order=id.asc "HTTP/2 200 OK"
+2025-06-15 01:33:09 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/rest/v1/users "HTTP/2 201 Created"
+2025-06-15 01:33:09 [INFO] “o˜^¬Œ÷: name=test2 path=images\test2_20250615013308.png features=490
+2025-06-15 02:07:15 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/test3_20250615020714.png "HTTP/2 400 Bad Request"
+2025-06-15 02:07:15 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 02:08:03 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/test3_20250615020803.png "HTTP/2 400 Bad Request"
+2025-06-15 02:08:03 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 02:25:58 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/test3_20250615022557.png "HTTP/2 400 Bad Request"
+2025-06-15 02:25:58 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 02:27:07 [INFO] HTTP Request: GET https://wdbssipnhugzetniazun.supabase.co/rest/v1/users?select=%2A&order=id.asc "HTTP/2 200 OK"
+2025-06-15 02:27:09 [INFO] HTTP Request: GET https://wdbssipnhugzetniazun.supabase.co/rest/v1/users?select=%2A&order=id.asc "HTTP/2 200 OK"
+2025-06-15 02:53:04 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/test3_20250615025303.png "HTTP/2 400 Bad Request"
+2025-06-15 02:53:04 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 03:03:10 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/test3_20250615030310.png "HTTP/2 400 Bad Request"
+2025-06-15 03:03:10 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 03:36:13 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/test3_20250615033612.png "HTTP/2 400 Bad Request"
+2025-06-15 03:36:13 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 03:56:36 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/test3_20250615035635.png "HTTP/2 400 Bad Request"
+2025-06-15 03:56:36 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 04:05:40 [WARNING] “o˜^¸”s: name=test3, img_data=False
+2025-06-15 04:05:50 [WARNING] “o˜^¸”s: name=, img_data=True
+2025-06-15 04:05:53 [WARNING] “o˜^¸”s: name=, img_data=False
+2025-06-15 04:05:56 [WARNING] “o˜^¸”s: name=test3, img_data=False
+2025-06-15 04:06:04 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/test3_20250615040604.png "HTTP/2 400 Bad Request"
+2025-06-15 04:06:04 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 04:51:23 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/ui_test_20250615045122.png "HTTP/2 400 Bad Request"
+2025-06-15 04:51:23 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 05:03:44 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/test3_20250615050343.png "HTTP/2 400 Bad Request"
+2025-06-15 05:03:44 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 05:06:03 [WARNING] “o˜^¸”s: name=, img_data=False
+2025-06-15 05:06:06 [INFO] HTTP Request: GET https://wdbssipnhugzetniazun.supabase.co/rest/v1/users?select=%2A&order=id.asc "HTTP/2 200 OK"
+2025-06-15 05:25:50 [INFO] HTTP Request: POST https://wdbssipnhugzetniazun.supabase.co/storage/v1/object/fingerprints/user_uploads/test3_20250615052549.png "HTTP/2 400 Bad Request"
+2025-06-15 05:25:50 [ERROR] “o˜^ˆ—ƒGƒ‰[: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-15 05:41:32 [INFO] “o˜^¬Œ÷: name=test3, path=images\test3_20250615054132.png
+2025-06-15 05:42:14 [INFO] “o˜^¬Œ÷: name=test5, path=images\test5_20250615054214.png
+2025-06-15 05:42:22 [ERROR] ¯•Êˆ—ƒGƒ‰[: module 'image_utils' has no attribute 'extract_features_from_bytes'
+2025-06-15 05:42:24 [WARNING] ¯•Ê¸”s: “ü—Í‰æ‘œ‚È‚µ
+2025-06-15 05:42:37 [ERROR] ¯•Êˆ—ƒGƒ‰[: module 'image_utils' has no attribute 'extract_features_from_bytes'
+2025-06-15 05:50:14 [ERROR] ¯•Êˆ—ƒGƒ‰[: “Á’¥—Ê’Šo¸”s
+2025-06-15 05:50:31 [WARNING] ¯•Ê¸”s: “ü—Í‰æ‘œ‚È‚µ
+2025-06-15 05:56:59 [INFO] “o˜^¬Œ÷: name=test3, path=images\test3_20250615055658.png
+2025-06-15 05:57:15 [INFO] “o˜^¬Œ÷: name=test2, path=images\test2_20250615055715.png
+2025-06-15 06:10:26 [INFO] “o˜^¬Œ÷: name=user1, path=images\user1_20250615061026.png
+2025-06-15 06:11:51 [INFO] “o˜^¬Œ÷: name=TestUser, path=images\TestUser_20250615061151.png
+2025-06-15 06:12:21 [INFO] “o˜^¬Œ÷: name=test5, path=images\test5_20250615061221.png
+2025-06-15 06:20:44 [INFO] “o˜^¬Œ÷: name=TestUser, path=images\TestUser_20250615062044.png
+2025-06-15 06:21:00 [WARNING] “Á’¥—Ê’Šo¸”s: images\ƒTƒ^ƒiƒGƒ‹_20250615062100.png
+2025-06-15 06:21:05 [WARNING] “o˜^¸”s: name=, img_data=False
+2025-06-15 06:21:11 [WARNING] “Á’¥—Ê’Šo¸”s: images\ƒTƒ^ƒiƒGƒ‹_20250615062111.png
+2025-06-15 06:21:30 [INFO] “o˜^¬Œ÷: name=tesu, path=images\tesu_20250615062130.png

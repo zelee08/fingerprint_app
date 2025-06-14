@@ -51,7 +51,7 @@ with st.sidebar:
         "機能を選択",
         options=["指紋登録", "登録ユーザー一覧", "指紋識別"]
     )
-    threshold = st.slider("マッチング閾値", 0, 100, 15)
+    threshold = st.slider("マッチング閾値", 100, 300, 150)
     st.markdown("---")
     if st.button("🔄 全データリセット"):
         user_db.clear_users()
@@ -59,7 +59,6 @@ with st.sidebar:
             os.remove(os.path.join("images", f))
         st.success("✅ 全データをリセットしました")
 
-# --- 指紋登録ページ ---
 if page == "指紋登録":
     st.markdown("## 📝 指紋登録")
     with st.form("register_form", clear_on_submit=True):
@@ -68,27 +67,40 @@ if page == "指紋登録":
         uploaded_file = st.file_uploader("📁 画像をアップロード", type=["png","jpg","jpeg"])
         img_data = camera_image or uploaded_file
         submitted = st.form_submit_button("登録する", use_container_width=True)
+
     if submitted:
         if not name or not img_data:
             st.error("名前と画像を両方入力してください。")
             logging.warning(f"登録失敗: name={name}, img_data={bool(img_data)}")
         else:
             try:
+                # 1. 画像をローカル保存
                 img_bytes = img_data.getvalue()
                 ts = datetime.now().strftime("%Y%m%d%H%M%S")
                 filename = f"{name}_{ts}.png"
                 save_path = os.path.join("images", filename)
                 with open(save_path, "wb") as f:
                     f.write(img_bytes)
+
                 features = image_utils.extract_features(save_path)
                 if not features:
                     st.error("特徴量が抽出できませんでした。別の画像を試してください。")
                     logging.warning(f"特徴量抽出失敗: {save_path}")
-                else:
-                    user_db.add_user(name, save_path, features)
-                    st.success(f"{name} さんの指紋を登録しました。")
-                    st.image(save_path, use_container_width=True)
-                    logging.info(f"登録成功: name={name}, path={save_path}")
+                    st.stop()  # または continue
+
+                MIN_FEATURES = 50
+                if len(features) < MIN_FEATURES:
+                    st.error(f"有効な指紋画像ではありません（検出特徴点：{len(features)}）")
+                    logging.warning(f"指紋判定失敗: detected={len(features)} < {MIN_FEATURES}")
+                    st.stop()  # または continue
+                # ────────────────────────────────
+
+                # 3. DB に登録
+                user_db.add_user(name, save_path, features)
+                st.success(f"{name} さんの指紋を登録しました。")
+                st.image(save_path, use_column_width=True)
+                logging.info(f"登録成功: name={name}, path={save_path}")
+
             except Exception as e:
                 st.error(f"登録中にエラーが発生しました：{e}")
                 logging.error(f"登録処理エラー: {e}")
@@ -110,7 +122,7 @@ elif page == "登録ユーザー一覧":
                     if st.button(f"🗑️ {u['name']} を削除"):
                         user_db.delete_user(u['name'])
                         st.success(f"{u['name']} さんを削除しました")
-                        st.experimental_rerun()
+                        st.rerun()
 
 # --- 指紋識別ページ ---
 elif page == "指紋識別":
@@ -126,7 +138,7 @@ elif page == "指紋識別":
             logging.warning("識別失敗: 入力画像なし")
         else:
             try:
-                # ① バイト列を一時ファイルに保存
+                # バイト列を一時ファイルに保存
                 img_bytes = img_data.getvalue()
                 ts = datetime.now().strftime("%Y%m%d%H%M%S")
                 tmp_name = f"input_{ts}.png"
@@ -134,12 +146,12 @@ elif page == "指紋識別":
                 with open(tmp_path, "wb") as f:
                     f.write(img_bytes)
 
-                # ② ファイル版の特徴量抽出を呼び出し
+                # ファイル版の特徴量抽出を呼び出し
                 inp_feats = image_utils.extract_features(tmp_path)
                 if not inp_feats:
                     raise RuntimeError("特徴量抽出失敗")
 
-                # ③ マッチング
+                # マッチング
                 users = user_db.load_users()
                 name, score = identifier.match_fingerprint(inp_feats, users, threshold)
                 if name:
@@ -152,7 +164,7 @@ elif page == "指紋識別":
                 logging.error(f"識別処理エラー: {e}")
 
             finally:
-                # ④ 一時ファイルを必ず削除
+                #  一時ファイルを必ず削除
                 try:
                     if 'tmp_path' in locals() and os.path.exists(tmp_path):
                         os.remove(tmp_path)
