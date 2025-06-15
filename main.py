@@ -6,6 +6,8 @@ import user_db
 import identifier
 import logging
 import zipfile
+import tempfile
+
 
 # --- ディレクトリ準備 ---
 if not os.path.exists("logs"):
@@ -224,19 +226,19 @@ elif page == "バックアップ":
 
     # --- zip作成関数（日時付きファイル名） ---
     from datetime import datetime
-    def create_backup_zip():
-        now = datetime.now().strftime("%Y%m%d_%H%M%S")
-        zip_name = f"backup_{now}.zip"
-        with zipfile.ZipFile(zip_name, "w") as zipf:
-            if os.path.exists("data/users.json"):
-                zipf.write("data/users.json", arcname="users.json")
-            image_dir = "images"
-            if os.path.exists(image_dir):
-                for filename in os.listdir(image_dir):
-                    path = os.path.join(image_dir, filename)
-                    if os.path.isfile(path):
-                        zipf.write(path, arcname=os.path.join("images", filename))
-        return zip_name
+def create_backup_zip():
+    now = datetime.now().strftime("%Y%m%d_%H%M%S")
+    zip_name = f"backup_{now}.zip"
+    zip_path = os.path.join(tempfile.gettempdir(), zip_name)  # ✅ ここ重要！
+    with zipfile.ZipFile(zip_path, "w") as zipf:
+        if os.path.exists("data/users.json"):
+            zipf.write("data/users.json", arcname="users.json")
+        if os.path.exists("images"):
+            for filename in os.listdir("images"):
+                f = os.path.join("images", filename)
+                if os.path.isfile(f):
+                    zipf.write(f, arcname=os.path.join("images", filename))
+    return zip_path
 
     # --- バックアップ作成UI ---
     if st.button("⬇️ バックアップを作成してダウンロード"):
