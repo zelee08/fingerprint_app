@@ -56,7 +56,7 @@ st.markdown(
 
 # --- サイドバー ---
 with st.sidebar:
-    st.title("🔧 メニュー")
+    st.title("メニュー")
     page = st.radio(
         "機能を選択",
         options=["指紋登録", "登録ユーザー一覧", "指紋識別", "バックアップ"]
@@ -77,10 +77,10 @@ if page == "指紋登録":
         name = st.text_input("名前を入力", placeholder="例：田中太郎")
 
         # 🔁 カメラ表示トグル
-        show_camera = st.checkbox("📸 カメラを起動して撮影する", value=False)
+        show_camera = st.checkbox("カメラを起動して撮影", value=False)
 
         if show_camera:
-            camera_image = st.camera_input("📷 指紋を撮影")
+            camera_image = st.camera_input("指紋を撮影")
         else:
             camera_image = None
 
@@ -154,10 +154,10 @@ elif page == "指紋識別":
 
     with st.form("identify_form", clear_on_submit=True):
         # 🔁 カメラ表示トグル
-        show_camera = st.checkbox("📸 カメラを起動して撮影する", value=False)
+        show_camera = st.checkbox("カメラを起動して撮影", value=False)
 
         if show_camera:
-            camera_image = st.camera_input("📷 指紋を撮影")
+            camera_image = st.camera_input("指紋を撮影")
         else:
             camera_image = None
 
