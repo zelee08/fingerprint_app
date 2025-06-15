@@ -65,11 +65,24 @@ with st.sidebar:
 
 if page == "指紋登録":
     st.markdown("## 📝 指紋登録")
+
     with st.form("register_form", clear_on_submit=True):
         name = st.text_input("名前を入力", placeholder="例：田中太郎")
-        camera_image = st.camera_input("カメラ撮影")
-        uploaded_file = st.file_uploader("📁 画像をアップロード", type=["png","jpg","jpeg"])
+
+        # 🔁 カメラ表示トグル
+        show_camera = st.checkbox("📸 カメラを起動して撮影する", value=False)
+
+        if show_camera:
+            camera_image = st.camera_input("📷 指紋を撮影")
+        else:
+            camera_image = None
+
+        # 🔁 画像アップロード（カメラと併用可）
+        uploaded_file = st.file_uploader("📁 画像をアップロード", type=["png", "jpg", "jpeg"], key="register_upload")
+
+        # 🖼️ 入力された画像（撮影 or アップロードのいずれか）
         img_data = camera_image or uploaded_file
+
         submitted = st.form_submit_button("登録する", use_container_width=True)
 
     if submitted:
@@ -131,10 +144,22 @@ elif page == "登録ユーザー一覧":
 # --- 指紋識別ページ ---
 elif page == "指紋識別":
     st.markdown("## 🔎 指紋識別")
+
     with st.form("identify_form", clear_on_submit=True):
-        camera_image = st.camera_input(" カメラ撮影")
-        uploaded_file = st.file_uploader("📁 画像をアップロード", type=["png","jpg","jpeg"])
+        # 🔁 カメラ表示トグル
+        show_camera = st.checkbox("📸 カメラを起動して撮影する", value=False)
+
+        if show_camera:
+            camera_image = st.camera_input("📷 指紋を撮影")
+        else:
+            camera_image = None
+
+        # 🔁 画像アップロード（カメラと併用可）
+        uploaded_file = st.file_uploader("📁 指紋画像をアップロード", type=["png", "jpg", "jpeg"], key="identify_upload")
+
+        # 🖼️ 入力された画像（撮影 or アップロードのいずれか）
         img_data = camera_image or uploaded_file
+
         submitted = st.form_submit_button("識別する", use_container_width=True)
     if submitted:
         if not img_data:
