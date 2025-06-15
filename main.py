@@ -5,6 +5,7 @@ import image_utils
 import user_db
 import identifier
 import logging
+import zipfile
 
 # --- ディレクトリ準備 ---
 if not os.path.exists("logs"):
@@ -49,21 +50,22 @@ with st.sidebar:
     st.title("🔧 メニュー")
     page = st.radio(
         "機能を選択",
-        options=["指紋登録", "登録ユーザー一覧", "指紋識別"]
+        options=["指紋登録", "登録ユーザー一覧", "指紋識別", "バックアップ"]
     )
-    threshold = st.slider("マッチング閾値", 100, 300, 150)
-    st.markdown("---")
-    if st.button("🔄 全データリセット"):
-        user_db.clear_users()
-        for f in os.listdir("images"):
-            os.remove(os.path.join("images", f))
-        st.success("✅ 全データをリセットしました")
+    if page != "バックアップ":  # バックアップページ以外では閾値とリセット表示
+        threshold = st.slider("マッチング閾値", 100, 300, 150)
+        st.markdown("---")
+        if st.button("🔄 全データリセット"):
+            user_db.clear_users()
+            for f in os.listdir("images"):
+                os.remove(os.path.join("images", f))
+            st.success("✅ 全データをリセットしました")
 
 if page == "指紋登録":
     st.markdown("## 📝 指紋登録")
     with st.form("register_form", clear_on_submit=True):
         name = st.text_input("名前を入力", placeholder="例：田中太郎")
-        camera_image = st.camera_input("📷 カメラで指紋を撮影")
+        camera_image = st.camera_input("カメラ撮影")
         uploaded_file = st.file_uploader("📁 画像をアップロード", type=["png","jpg","jpeg"])
         img_data = camera_image or uploaded_file
         submitted = st.form_submit_button("登録する", use_container_width=True)
@@ -128,7 +130,7 @@ elif page == "登録ユーザー一覧":
 elif page == "指紋識別":
     st.markdown("## 🔎 指紋識別")
     with st.form("identify_form", clear_on_submit=True):
-        camera_image = st.camera_input("📷 カメラで撮影")
+        camera_image = st.camera_input(" カメラ撮影")
         uploaded_file = st.file_uploader("📁 画像をアップロード", type=["png","jpg","jpeg"])
         img_data = camera_image or uploaded_file
         submitted = st.form_submit_button("識別する", use_container_width=True)
@@ -170,3 +172,98 @@ elif page == "指紋識別":
                         os.remove(tmp_path)
                 except OSError:
                     pass
+
+# -----------------------
+# 🔹 1. ZIPでバックアップ作成・ダウンロード
+# -----------------------
+def create_backup_zip(zip_name="backup.zip"):
+    with zipfile.ZipFile(zip_name, "w") as zipf:
+        if os.path.exists("data/users.json"):
+            zipf.write("data/users.json", arcname="users.json")
+        image_dir = "images"
+        if os.path.exists(image_dir):
+            for filename in os.listdir(image_dir):
+                path = os.path.join(image_dir, filename)
+                if os.path.isfile(path):
+                    zipf.write(path, arcname=os.path.join("images", filename))
+    return zip_name
+
+st.subheader("📦 バックアップと復元")
+
+if st.button("⬇️ バックアップをダウンロード"):
+    zip_path = create_backup_zip()
+    with open(zip_path, "rb") as f:
+        st.download_button(
+            label="📥 ここからダウンロード",
+            data=f,
+            file_name="fingerprint_backup.zip",
+            mime="application/zip"
+        )
+
+# -----------------------
+# 🔹 2. ZIPアップロード → 復元
+# -----------------------
+uploaded = st.file_uploader("📂 バックアップ(zip)をアップロードして復元", type=["zip"])
+
+if uploaded is not None:
+    with open("restore.zip", "wb") as f:
+        f.write(uploaded.read())
+    with zipfile.ZipFile("restore.zip", "r") as zipf:
+        zipf.extractall()
+
+    st.success("✅ 復元が完了しました！")
+
+    # 中身が正しく入っているか確認
+    if os.path.exists("data/users.json"):
+        st.info("users.json が復元されました。")
+    if os.path.exists("images"):
+        st.info(f"{len(os.listdir('images'))} 枚の指紋画像が復元されました。")
+
+elif page == "バックアップ":
+    st.markdown("## 📦 データのバックアップと復元")
+
+    # --- zip作成関数（日時付きファイル名） ---
+    from datetime import datetime
+    def create_backup_zip():
+        now = datetime.now().strftime("%Y%m%d_%H%M%S")
+        zip_name = f"backup_{now}.zip"
+        with zipfile.ZipFile(zip_name, "w") as zipf:
+            if os.path.exists("data/users.json"):
+                zipf.write("data/users.json", arcname="users.json")
+            image_dir = "images"
+            if os.path.exists(image_dir):
+                for filename in os.listdir(image_dir):
+                    path = os.path.join(image_dir, filename)
+                    if os.path.isfile(path):
+                        zipf.write(path, arcname=os.path.join("images", filename))
+        return zip_name
+
+    # --- バックアップ作成UI ---
+    if st.button("⬇️ バックアップを作成してダウンロード"):
+        zip_path = create_backup_zip()
+        with open(zip_path, "rb") as f:
+            st.download_button(
+                label="📥 ダウンロードはこちら",
+                data=f,
+                file_name=zip_path,
+                mime="application/zip"
+            )
+
+    st.markdown("---")
+
+    # --- アップロード＆復元 ---
+    uploaded = st.file_uploader("📂 バックアップ(zip)をアップロードして復元", type=["zip"], key="backup_upload")
+
+    if uploaded is not None:
+        with open("restore.zip", "wb") as f:
+            f.write(uploaded.read())
+        with zipfile.ZipFile("restore.zip", "r") as zipf:
+            zipf.extractall()
+
+        st.success("✅ 復元が完了しました！")
+        if os.path.exists("data/users.json"):
+            st.info("users.json が復元されました。")
+        if os.path.exists("images"):
+            st.info(f"{len(os.listdir('images'))} 枚の指紋画像が復元されました。")
+
+        st.experimental_rerun()
