@@ -9,3 +9,9 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 PS C:\Users\takup\OneDrive\デスクトップ\fingerprint_app> & .\venv\Scripts\Activate.ps1
 >> 
 (venv) PS C:\Users\takup\OneDrive\デスクトップ\fingerprint_app> streamlit run main.py
+
+git status
+git add .
+git commit -m "修正"
+git push origin main
+

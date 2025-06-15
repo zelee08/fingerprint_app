@@ -15,6 +15,13 @@ if not os.path.exists("logs"):
 if not os.path.exists("images"):
     os.makedirs("images")
 
+if not os.path.exists("data"):
+    os.makedirs("data")
+if not os.path.exists("data/users.json"):
+    with open("data/users.json", "w") as f:
+        f.write("[]")  # 空のユーザーデータで初期化
+
+
 # --- ログ設定 ---
 logging.basicConfig(
     filename="logs/app.log",
